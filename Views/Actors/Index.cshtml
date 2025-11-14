@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Fall2025_Project3_cjhirschey.Models.Actor>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table datatable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImdbUrl)
+            </th>
+            <th>
+                Movies
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Photo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImdbUrl)
+            </td>
+            <td>
+                @if (item.ActorMovies != null && item.ActorMovies.Any())
+                {
+                    foreach (var am in item.ActorMovies)
+                    {
+                        <div><a asp-controller="Movies" asp-action="Details" asp-route-id="@am.MovieId">@am.Movie?.Title</a></div>
+                    }
+                }
+                else
+                {
+                    <span>—</span>
+                }
+            </td>
+            <td>
+                @if (item.Photo != null && item.Photo.Length > 0)
+                {
+                    var base64 = Convert.ToBase64String(item.Photo);
+                    var imgSrc = string.Format("data:image/jpg;base64,{0}", base64);
+                    <img src="@imgSrc" class="actor-photo-thumb" alt="@item.Name photo" />
+                }
+                else
+                {
+                    <span>No photo</span>
+                }
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

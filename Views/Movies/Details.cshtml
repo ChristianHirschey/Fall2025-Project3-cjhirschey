@@ -1,0 +1,86 @@
+﻿@model Fall2025_Project3_cjhirschey.ViewModels.MovieDetailViewModel
+
+@{
+}
+
+<h1>@Model.Movie.Title</h1>
+
+<div>
+    <h4>Movie Details</h4>
+    <hr />
+
+    <table class="table metadata-table">
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>IMDb</td>
+                <td>
+                    <a href="@Model.Movie.ImdbUrl" target="_blank" class="imdb-link">View on IMDb</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Actors</td>
+                <td>
+                    <ul class="metadata-list">
+                        @if (Model.Movie?.ActorMovies != null)
+                        {
+                            @foreach (var actorMovie in Model.Movie.ActorMovies)
+                            {
+                                <li>
+                                    <a asp-controller="Actors" asp-action="Details" asp-route-id="@actorMovie.Actor.Id">
+                                        @actorMovie.Actor.Name
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </td>
+            </tr>
+            @if (Model.Movie.Poster != null)
+            {
+                <tr>
+                    <td>Poster</td>
+                    <td>
+                        @{ var base64 = Convert.ToBase64String(Model.Movie.Poster); var imgSrc = string.Format("data:image/jpg;base64,{0}", base64); }
+                        <img src="@imgSrc" class="poster-thumb" alt="@Model.Movie.Title poster" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<hr />
+<h3>AI Generated Reviews</h3>
+<h4>Average Sentiment: @Model.AverageSentiment.ToString("F2")</h4>
+
+<table class="table datatable datatable-simple">
+    <thead>
+        <tr>
+            <th>Review</th>
+            <th>Sentiment Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Reviews != null && Model.Reviews.Any())
+        {
+            @foreach (var review in Model.Reviews)
+            {
+                <tr>
+                    <td>@review.ReviewText</td>
+                    <td>@review.SentimentScore.ToString("F2")</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Movie.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div></div>

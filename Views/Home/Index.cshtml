@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+<header>
+    <h1 class="page-title">Welcome to MovieMania</h1>
+</header>
+
+<div class="intro">
+    <p class="intro-text">
+        A small catalog of movies and actors with AI-generated reviews and simulated tweets.
+        Browse movies and actors, add your own entries, and view AI-generated reviews & sentiment analysis.
+    </p>
+
+    <div class="home-cta">
+        <a asp-controller="Movies" asp-action="Index" class="buttons ui-widget ui-state-default ui-corner-all">Browse Movies</a>
+        <a asp-controller="Actors" asp-action="Index" class="buttons ui-widget ui-state-default ui-corner-all">Browse Actors</a>
+    </div>
+</div>
+
+<hr />
+
+<section class="how-it-works">
+    <h3>How this works</h3>
+    <ol>
+        <li>Movie detail pages call OpenAI once to generate 3 reviews and analyze them with VaderSharp2.</li>
+        <li>Actor detail pages call OpenAI once to generate 5 simulated tweets and analyze them.</li>
+        <li>Use the navigation to create, edit, or remove movies, actors, and actor-movie relationships.</li>
+    </ol>
+</section>

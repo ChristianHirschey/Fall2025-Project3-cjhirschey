@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @{ var pageAction = (string)ViewContext.RouteData.Values["action"] ?? ""; var pageController = (string)ViewContext.RouteData.Values["controller"] ?? ""; var pageTitle = string.IsNullOrWhiteSpace(pageAction) ? "MovieMania" : pageAction; }
+    <title>@pageTitle - MovieMania</title>
+
+    <!-- jQuery (CDN) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous"></script>
+
+    <!-- jQuery UI (CDN) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js"
+            integrity="sha512-MSOo1aY+3pXCOCdGAYoBZ6YGI0aragoQsg1mKKBHXCYPIWxamwOE7Drh+N5CPgGI5SA9IEKJiPjdfqWFWmZtRA=="
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.14.1/themes/dark-hive/jquery-ui.css"
+          integrity="sha512-KccCNWdGAmEkxaMF4R1OAWO4+ceV0krPtuyCcKORpJs3inQJPHZRl0COyWObAjF3nqrhTyU7TY9jKrM4jAPh3w=="
+          crossorigin="anonymous" />
+
+    <!-- DataTables CSS (CDN) -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"
+          integrity="sha512-v4MzMghBi/neDdZsmQPOxz8DEvwxElBTOeMAG+Mzpzwgw28jjfznCm+MzqF2tPomQVs1fIgsgYD2jxwrCIC70w=="
+          crossorigin="anonymous" />
+
+    <!-- App CSS -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <!-- apply jQuery UI widget classes so the theme styles the nav -->
+        <nav class="site-nav ui-widget ui-widget-content ui-corner-all">
+            <div class="nav-left">
+                <a asp-controller="Home" asp-action="Index" class="brand ui-button ui-widget">MovieMania</a>
+            </div>
+            <div class="nav-right buttons ui-widget">
+                <a asp-controller="Movies" asp-action="Index">Movies</a>
+                <a asp-controller="Actors" asp-action="Index">Actors</a>
+                <a asp-controller="ActorMovies" asp-action="Index">Actor-Movie Links</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            @DateTime.Now.Year MovieMania, built for CS330
+        </div>
+    </footer>
+
+    <!-- DataTables JS (CDN) -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"
+            integrity="sha512-aZVdJkG8B8bXWj+iKu3Kwz0d0KZlu/cZeQpdQYOuZ8BCrwRdMqOb9/LNxihZ07fEy/uRgqXOTB86Rn11vTHYHA=="
+            crossorigin="anonymous"></script>
+
+    <!-- Local app script to initialize DataTables and UI interactions -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

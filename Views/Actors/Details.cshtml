@@ -1,0 +1,95 @@
+﻿@model Fall2025_Project3_cjhirschey.ViewModels.ActorDetailViewModel
+
+@{
+}
+
+<h1>@Model.Actor.Name</h1>
+
+<div>
+    <h4>Actor Details</h4>
+    <hr />
+
+    <table class="table metadata-table">
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Gender</td>
+                <td>@Html.DisplayFor(model => model.Actor.Gender)</td>
+            </tr>
+            <tr>
+                <td>Age</td>
+                <td>@Html.DisplayFor(model => model.Actor.Age)</td>
+            </tr>
+            <tr>
+                <td>IMDb</td>
+                <td><a href="@Model.Actor.ImdbUrl" target="_blank">View on IMDb</a></td>
+            </tr>
+            @if (Model.Actor.Photo != null)
+            {
+                <tr>
+                    <td>Photo</td>
+                    <td>
+                        @{
+                            var base64 = Convert.ToBase64String(Model.Actor.Photo);
+                            var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
+                        }
+                        <img src="@imgSrc" class="actor-photo-thumb" alt="@Model.Actor.Name" />
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>Movies</td>
+                <td>
+                    <ul class="metadata-list">
+                        @if (Model.Actor?.ActorMovies != null)
+                        {
+                            @foreach (var actorMovie in Model.Actor.ActorMovies)
+                            {
+                                <li>
+                                    <a asp-controller="Movies" asp-action="Details" asp-route-id="@actorMovie.Movie.Id">
+                                        @actorMovie.Movie.Title
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<hr />
+<h3>AI Generated "Twitter" Feed</h3>
+<h4>Overall Sentiment: @Model.OverallSentiment.ToString("F2")</h4>
+
+<table class="table datatable datatable-simple">
+    <thead>
+        <tr>
+            <th>Tweet</th>
+            <th>Sentiment Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Tweets != null && Model.Tweets.Any())
+        {
+            @foreach (var tweet in Model.Tweets)
+            {
+                <tr>
+                    <td>@tweet.TweetText</td>
+                    <td>@tweet.SentimentScore.ToString("F2")</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Actor.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div></div>
